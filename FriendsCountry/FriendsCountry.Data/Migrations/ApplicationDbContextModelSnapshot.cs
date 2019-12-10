@@ -65,6 +65,9 @@ namespace FriendsCountry.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhotoUri")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("StateId")
                         .HasColumnType("bigint");
 

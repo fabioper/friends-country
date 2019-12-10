@@ -9,6 +9,8 @@ namespace FriendsCountry.Domain.Entities
     {
         public Friend() => Friends = new HashSet<Friend>();
 
+        public string PhotoUri { get; set; }
+
         public string Name { get; set; }
 
         public string FamilyName { get; set; }

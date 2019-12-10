@@ -23,7 +23,9 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Friend> AddAsync(Friend friend)
         {
-            await _friends.AddAsync(friend);
+            //await _friends.AddAsync(friend);
+            _context.Friends.FromSqlInterpolated($"InsertFriend {friend.PhotoUri}, {friend.Name}, {friend.FamilyName}, {friend.Email}, {friend.Phone}, {friend.Birthdate}, {friend.CountryId}, {friend.StateId}")
+                            .FirstOrDefault();
 
             await _context.SaveChangesAsync();
 
@@ -50,7 +52,11 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Friend> GetByIdAsync(long id)
         {
-            return await _friends.Include(f => f.Friends).FirstOrDefaultAsync(f => f.Id == id);
+            //return await _friends.Include(f => f.Friends).FirstOrDefaultAsync(f => f.Id == id);
+
+            var friend = _context.Friends.FromSqlInterpolated($"GetFriend {id}").FirstOrDefault();
+
+            return await Task.FromResult(friend);
         }
 
         public async Task<Friend> GetByStateAsync(State state)
@@ -69,7 +75,9 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Friend> UpdateAsync(Friend friend)
         {
-            _context.Update(friend);
+            //_context.Update(friend);
+            _context.Friends.FromSqlInterpolated($"UpdateFriend {friend.Id}, {friend.PhotoUri}, {friend.Name}, {friend.FamilyName}, {friend.Email}, {friend.Phone}, {friend.Birthdate}, {friend.CountryId}, {friend.StateId}")
+                            .FirstOrDefault();
 
             await _context.SaveChangesAsync();
 

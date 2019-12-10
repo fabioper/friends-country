@@ -48,6 +48,7 @@ namespace FriendsCountry.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PhotoUri = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     FamilyName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -100,8 +101,7 @@ namespace FriendsCountry.Data.Migrations
                 table: "States",
                 column: "CountryId");
 
-
-            var spCountriesGet = @"CREATE PROCEDURE [dbo].[GetCountries]
+            var spCountriesGet = @"CREATE PROCEDURE [dbo].[GetCountry]
                     @Id BIGINT
                 AS
                 BEGIN
@@ -126,9 +126,10 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spStatesGet = @"CREATE PROCEDURE [dbo].[GetState]
+                    @Id BIGINT
                 AS
                 BEGIN
-                    select * from States
+                    select * from States where Id = @Id
                 END";
 
 
@@ -149,7 +150,7 @@ namespace FriendsCountry.Data.Migrations
                     UPDATE States SET Name = @Name, FlagUri = @FlagUri WHERE Id = @Id
                 END";
 
-            var spFriendsGet = @"CREATE PROCEDURE [dbo].[GetFriends]
+            var spFriendsGet = @"CREATE PROCEDURE [dbo].[GetFriend]
                     @Id BIGINT
                 AS
                 BEGIN
@@ -157,27 +158,33 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spFriendsInsert = @"CREATE PROCEDURE [dbo].[InsertFriend]
+                    @PhotoUri NVARCHAR,
                     @Name NVARCHAR,
                     @FamilyName NVARCHAR,
                     @Email NVARCHAR,
                     @Phone NVARCHAR,
-                    @Birthdate DATETIME2
+                    @Birthdate DATETIME2,
+                    @CountryId BIGINT,
+                    @StateId BIGINT
                 AS
                 BEGIN
-                    insert into Friends(Name, FamilyName, Email, Phone, Birthdate) values (@Name, @FamilyName, @Email, @Phone, @Birthdate)
+                    insert into Friends(PhotoUri, Name, FamilyName, Email, Phone, Birthdate, CountryId, StateId) values (@PhotoUri, @Name, @FamilyName, @Email, @Phone, @Birthdate, @CountryId, @StateId)
                 END";
 
 
             var spFriendsUpdate = @"CREATE PROCEDURE [dbo].[UpdateFriend]
                     @Id BIGINT,
+                    @PhotoUri NVARCHAR,
                     @Name NVARCHAR,
                     @FamilyName NVARCHAR,
                     @Email NVARCHAR,
                     @Phone NVARCHAR,
-                    @Birthdate DATETIME2
+                    @Birthdate DATETIME2,
+                    @CountryId BIGINT,
+                    @StateId BIGINT
                 AS
                 BEGIN
-                    update friends set Name = @Name, FamilyName = @FamilyName, Email = @Email, Phone = @Phone, Birthdate = @Birthdate where Id = @Id
+                    update friends set PhotoUri = @PhotoUri, Name = @Name, FamilyName = @FamilyName, Email = @Email, Phone = @Phone, Birthdate = @Birthdate where Id = @Id
                 END";
 
             migrationBuilder.Sql(spCountriesGet);
