@@ -23,7 +23,7 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Country> AddAsync(Country country)
         {
-            var addedCountry = await _countries.AddAsync(country);
+            await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.InsertCountry {country.FlagUri}, {country.Name}");
             await _context.SaveChangesAsync();
 
             return country;
@@ -41,7 +41,9 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Country> GetByIdAsync(long id)
         {
-            return await _countries.Include(c => c.States).FirstOrDefaultAsync(c => c.Id == id);
+            var country = _context.Countries.FromSqlInterpolated($"EXECUTE dbo.GetCountry {id}").AsEnumerable<Country>().FirstOrDefault();
+
+            return await Task.FromResult(country);
         }
 
         public async Task RemoveAsync(Country country)
@@ -52,7 +54,7 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Country> UpdateAsync(Country country)
         {
-            _context.Update(country);
+            await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.UpdateCountry {country.Id}, {country.FlagUri}, {country.Name}");
 
             await _context.SaveChangesAsync();
 

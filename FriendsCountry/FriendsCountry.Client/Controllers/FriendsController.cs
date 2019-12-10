@@ -107,12 +107,28 @@ namespace FriendsCountry.Client.Controllers
         {
             using (var client = _clientFactory.CreateClient())
             {
+                var countriesResponse = await client.GetAsync("https://localhost:44329/api/countries");
+
+                countriesResponse.EnsureSuccessStatusCode();
+
+                string countriesResponseBody = await countriesResponse.Content.ReadAsStringAsync();
+                var countries = JsonConvert.DeserializeObject<IEnumerable<Country>>(countriesResponseBody).Select(s => new { s.Id, s.Name }).ToList();
+
+                var statesResponse = await client.GetAsync("https://localhost:44329/api/states");
+
+                statesResponse.EnsureSuccessStatusCode();
+
+                string statesResponseBody = await statesResponse.Content.ReadAsStringAsync();
+                var states = JsonConvert.DeserializeObject<IEnumerable<State>>(statesResponseBody).Select(c => new { c.Id, c.Name }).ToList();
+
                 var response = await client.GetAsync($"https://localhost:44374/api/friends/{id}");
 
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var friend = JsonConvert.DeserializeObject<UpdateFriendViewModel>(responseBody);
+                friend.Countries = new SelectList(countries, "Id", "Name");
+                friend.States = new SelectList(states, "Id", "Name");
 
                 return View(friend);
             }

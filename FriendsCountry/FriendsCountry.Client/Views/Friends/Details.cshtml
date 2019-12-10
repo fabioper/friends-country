@@ -47,22 +47,16 @@
             @Html.DisplayFor(model => model.Birthdate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CountryId)
+            @Html.DisplayNameFor(model => model.Country)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CountryId)
+            @Html.DisplayFor(model => model.Country.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StateId)
+            @Html.DisplayNameFor(model => model.State)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StateId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.State.Name)
         </dd>
     </dl>
 </div>

@@ -23,17 +23,10 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Friend> AddAsync(Friend friend)
         {
+            Console.WriteLine($"\n\n{friend.ToString()}\n\n{friend.StateId}\n\n");
+
             //await _friends.AddAsync(friend);
-            await _context.Database.ExecuteSqlRawAsync(
-                "EXECUTE dbo.InsertFriend {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
-                friend.PhotoUri,
-                friend.Name,
-                friend.FamilyName,
-                friend.Email,
-                friend.Phone,
-                friend.Birthdate,
-                friend.CountryId,
-                friend.StateId);
+            await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.InsertFriend {friend.PhotoUri}, {friend.Name}, {friend.FamilyName}, {friend.Email}, {friend.Phone}, {friend.Birthdate}, {friend.CountryId}, {friend.StateId}");
 
             await _context.SaveChangesAsync();
 
@@ -42,7 +35,7 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<IEnumerable<Friend>> GetAllAsync()
         {
-            return await Task.FromResult(_friends.Include(f => f.Friends));
+            return await Task.FromResult(_friends.Include(f => f.Friends).Include(f => f.State).Include(f => f.Country));
         }
 
         public async Task<IEnumerable<Friend>> GetByAsync(string keyword)
@@ -62,7 +55,7 @@ namespace FriendsCountry.Infra.Repositories
         {
             //return await _friends.Include(f => f.Friends).FirstOrDefaultAsync(f => f.Id == id);
 
-            var friend = _context.Friends.FromSqlRaw("EXECUTE dbo.GetFriend {0}", id).FirstOrDefault();
+            var friend = _context.Friends.FromSqlInterpolated($"EXECUTE dbo.GetFriend {id}").AsEnumerable<Friend>().FirstOrDefault();
 
             return await Task.FromResult(friend);
         }
@@ -83,9 +76,7 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task<Friend> UpdateAsync(Friend friend)
         {
-            //_context.Update(friend);
-            _context.Friends.FromSqlRaw("EXECUTE dbo.UpdateFriend {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", friend.PhotoUri, friend.Name, friend.FamilyName, friend.Email, friend.Phone, friend.Birthdate, friend.CountryId, friend.StateId)
-                            .FirstOrDefault();
+            await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.UpdateFriend {friend.Id}, {friend.PhotoUri}, {friend.Name}, {friend.FamilyName}, {friend.Email}, {friend.Phone}, {friend.Birthdate}, {friend.CountryId}, {friend.StateId}");
 
             await _context.SaveChangesAsync();
 

@@ -18,18 +18,21 @@ namespace FriendsCountry.Countries.API.Models
         public string FamilyName { get; set; }
 
         [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
 
         [Required]
         public long CountryId { get; set; }
 
         [Required]
-        public long StateId { get; set; }
+        public long StatesId { get; set; }
     }
 }

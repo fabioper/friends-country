@@ -41,7 +41,7 @@ namespace FriendsCountry.Friends.API.Controllers
                     PhotoUri = "",
                     Birthdate = friend.Birthdate,
                     CountryId = friend.CountryId,
-                    StateId = friend.StateId,
+                    StateId = friend.StatesId,
                     Phone = friend.Phone,
                     Email = friend.Email
                 };
@@ -83,7 +83,7 @@ namespace FriendsCountry.Friends.API.Controllers
                 friend.Birthdate = vm.Birthdate;
                 friend.Phone = vm.Phone;
                 friend.CountryId = vm.CountryId;
-                friend.StateId = vm.StateId;
+                friend.StateId = vm.StatesId;
 
                 await _repository.UpdateAsync(friend);
 

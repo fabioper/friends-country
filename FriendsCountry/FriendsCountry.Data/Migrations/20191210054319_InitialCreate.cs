@@ -109,8 +109,8 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spCountriesInsert = @"CREATE PROCEDURE [dbo].[InsertCountry]
-                    @FlagUri NVARCHAR,
-                    @Name NVARCHAR
+                    @FlagUri NVARCHAR (MAX),
+                    @Name NVARCHAR (MAX)
                 AS
                 BEGIN
                     insert into dbo.Countries(FlagUri, Name) values (@FlagUri, @Name)
@@ -118,8 +118,8 @@ namespace FriendsCountry.Data.Migrations
 
             var spCountriesUpdate = @"CREATE PROCEDURE [dbo].[UpdateCountry]
                     @Id BIGINT,
-                    @FlagUri NVARCHAR,
-                    @Name NVARCHAR
+                    @FlagUri NVARCHAR (MAX),
+                    @Name NVARCHAR (MAX)
                 AS
                 BEGIN
                     update dbo.Countries set FlagUri = @FlagUri, Name = @Name where Id = @Id
@@ -134,8 +134,8 @@ namespace FriendsCountry.Data.Migrations
 
 
             var spStatesInsert = @"CREATE PROCEDURE [dbo].[InsertState]
-                    @Name NVARCHAR,
-                    @FlagUri NVARCHAR
+                    @Name NVARCHAR (MAX),
+                    @FlagUri NVARCHAR (MAX)
                 AS
                 BEGIN
                     INSERT INTO dbo.States(Name, FlagUri) VALUES(@Name, @FlagUri)
@@ -143,8 +143,8 @@ namespace FriendsCountry.Data.Migrations
 
             var spStatesUpdate = @"CREATE PROCEDURE [dbo].[UpdateState]
                    @Id BIGINT, 
-                   @Name NVARCHAR,
-                   @FlagUri NVARCHAR
+                   @Name NVARCHAR (MAX),
+                   @FlagUri NVARCHAR (MAX)
                 AS
                 BEGIN
                     UPDATE dbo.States SET Name = @Name, FlagUri = @FlagUri WHERE Id = @Id
@@ -158,12 +158,12 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spFriendsInsert = @"CREATE PROCEDURE [dbo].[InsertFriend]
-                    @PhotoUri NVARCHAR,
-                    @Name NVARCHAR,
-                    @FamilyName NVARCHAR,
-                    @Email NVARCHAR,
-                    @Phone NVARCHAR,
-                    @Birthdate DATETIME2,
+                    @PhotoUri NVARCHAR (MAX),
+                    @Name NVARCHAR (MAX),
+                    @FamilyName NVARCHAR (MAX),
+                    @Email NVARCHAR (MAX),
+                    @Phone NVARCHAR (MAX),
+                    @Birthdate DATETIME2 (7),
                     @CountryId BIGINT,
                     @StateId BIGINT
                 AS
@@ -174,12 +174,12 @@ namespace FriendsCountry.Data.Migrations
 
             var spFriendsUpdate = @"CREATE PROCEDURE [dbo].[UpdateFriend]
                     @Id BIGINT,
-                    @PhotoUri NVARCHAR,
-                    @Name NVARCHAR,
-                    @FamilyName NVARCHAR,
-                    @Email NVARCHAR,
-                    @Phone NVARCHAR,
-                    @Birthdate DATETIME2,
+                    @PhotoUri NVARCHAR (MAX),
+                    @Name NVARCHAR (MAX),
+                    @FamilyName NVARCHAR (MAX),
+                    @Email NVARCHAR (MAX),
+                    @Phone NVARCHAR (MAX),
+                    @Birthdate DATETIME2 (7),
                     @CountryId BIGINT,
                     @StateId BIGINT
                 AS

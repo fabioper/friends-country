@@ -1,16 +1,16 @@
-﻿@model FriendsCountry.Client.VIewModels.CreateFriendViewModel
+﻿@model FriendsCountry.Client.VIewModels.UpdateFriendViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
 }
 
-<h1>Create</h1>
+<h1>Update</h1>
 
-<h4>CreateFriendViewModel</h4>
+<h4>UpdateFriendViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -37,7 +37,7 @@
                 <input asp-for="Birthdate" class="form-control" />
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
             </div>
-            
+
             <div>
                 <select asp-for="CountryId" asp-items="Model.Countries" class="form-control">
                     <option value="">Select Country</option>
@@ -49,7 +49,7 @@
                     <option value="">Select State</option>
                 </select>
             </div>
-            
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
