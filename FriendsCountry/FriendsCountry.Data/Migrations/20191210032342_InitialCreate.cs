@@ -99,6 +99,84 @@ namespace FriendsCountry.Data.Migrations
                 name: "IX_States_CountryId",
                 table: "States",
                 column: "CountryId");
+
+
+            var spCountriesGet = @"CREATE PROCEDURE [dbo].[GetCountries]
+                AS
+                BEGIN
+                    select * from Countries
+                END";
+
+            var spCountriesInsert = @"CREATE PROCEDURE [dbo].[InsertCountry]
+                AS
+                BEGIN
+                    
+                END";
+
+            var spCountriesUpdate = @"CREATE PROCEDURE [dbo].[UpdateCountry]
+                AS
+                BEGIN
+                    
+                END";
+
+            var spStatesGet = @"CREATE PROCEDURE [dbo].[GetState]
+                AS
+                BEGIN
+                    select * from Countries
+                END";
+
+
+            var spStatesInsert = @"CREATE PROCEDURE [dbo].[InsertState]
+                AS
+                BEGIN
+                    
+                END";
+
+            var spStatesUpdate = @"CREATE PROCEDURE [dbo].[UpdateState]
+                AS
+                BEGIN
+                    
+                END";
+
+            var spFriendsGet = @"CREATE PROCEDURE [dbo].[GetFriends]
+                AS
+                BEGIN
+                    select * from Friends
+                END";
+
+            var spFriendsInsert = @"CREATE PROCEDURE [dbo].[InsertFriend]
+                    @Name NVARCHAR
+                    @FamilyName NVARCHAR
+                    @Email NVARCHAR
+                    @Phone NVARCHAR
+                    @Birthdate DATETIME2
+                AS
+                BEGIN
+                    insert into Friends values (@Name, @FamilyName, @Email, @Phone, @Birthdate)
+                END";
+
+
+            var spFriendsUpdate = @"CREATE PROCEDURE [dbo].[UpdateFriend]
+                    @Id BIGINT,
+                    @Name NVARCHAR,
+                    @FamilyName NVARCHAR,
+                    @Email NVARCHAR,
+                    @Phone NVARCHAR,
+                    @Birthdate DATETIME2
+                AS
+                BEGIN
+                    update friends set Name = @Name, FamilyName = @FamilyName, Email = @Email, Phone = @Phone, Birthdate = @Birthdate where Id = @Id
+                END";
+
+            migrationBuilder.Sql(spCountriesGet);
+            migrationBuilder.Sql(spCountriesInsert);
+            migrationBuilder.Sql(spCountriesUpdate);
+            migrationBuilder.Sql(spStatesGet);
+            migrationBuilder.Sql(spStatesInsert);
+            migrationBuilder.Sql(spStatesUpdate);
+            migrationBuilder.Sql(spFriendsGet);
+            migrationBuilder.Sql(spFriendsInsert);
+            migrationBuilder.Sql(spFriendsUpdate);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
