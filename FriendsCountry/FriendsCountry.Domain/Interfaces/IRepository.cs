@@ -8,16 +8,16 @@ namespace FriendsCountry.Domain.Interfaces
 {
     public interface IRepository<T> where T: Entity
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T> GetById(long id);
+        Task<T> GetByIdAsync(long id);
 
-        Task<IEnumerable<T>> GetBy(string keyword);
+        Task<IEnumerable<T>> GetByAsync(string keyword);
 
-        Task<T> Add(T entity);
+        Task<T> AddAsync(T entity);
 
-        Task<T> Update(T entity);
+        Task<T> UpdateAsync(T entity);
 
-        Task Remove(T entity);
+        Task RemoveAsync(T entity);
     }
 }

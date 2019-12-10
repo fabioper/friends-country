@@ -9,7 +9,9 @@ namespace FriendsCountry.Domain.Entities
         public Country() => States = new HashSet<State>();
 
         public string FlagUri { get; set; }
+
         public string Name { get; set; }
+
         public ICollection<State> States { get; set; }
     }
 }

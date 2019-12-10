@@ -12,40 +12,51 @@ namespace FriendsCountry.Infra.Repositories
 {
     public class CountriesRepository : ICountriesRepository
     {
+        private readonly ApplicationDbContext _context;
         private readonly DbSet<Country> _countries;
 
         public CountriesRepository(ApplicationDbContext context)
         {
+            _context = context;
             _countries = context.Countries;
         }
 
-        public async Task<Country> Add(Country country)
+        public async Task<Country> AddAsync(Country country)
         {
-            await _countries.AddAsync(country);
+            var addedCountry = await _countries.AddAsync(country);
+            await _context.SaveChangesAsync();
 
             return country;
         }
 
-        public async Task<IEnumerable<Country>> GetAll()
+        public async Task<IEnumerable<Country>> GetAllAsync()
         {
-            return await Task.FromResult(_countries);
+            return await Task.FromResult(_countries.Include(c => c.States));
         }
 
-        public async Task<IEnumerable<Country>> GetBy(string keyword)
+        public async Task<IEnumerable<Country>> GetByAsync(string keyword)
         {
-            return await Task.FromResult(_countries.Where(c => c.Name.ToLower().Contains(keyword)));
+            return await Task.FromResult(_countries.Include(c => c.States).Where(c => c.Name.ToLower().Contains(keyword)));
         }
 
-        public async Task<Country> GetById(long id)
+        public async Task<Country> GetByIdAsync(long id)
         {
-            return await _countries.FirstOrDefaultAsync(c => c.Id == id);
+            return await _countries.Include(c => c.States).FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task Remove(Country country)
+        public async Task RemoveAsync(Country country)
         {
-            await Task.FromResult(_countries.Remove(country));
+            _countries.Remove(country);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Country> Update(Country country) => throw new NotImplementedException();
+        public async Task<Country> UpdateAsync(Country country)
+        {
+            _context.Update(country);
+
+            await _context.SaveChangesAsync();
+
+            return country;
+        }
     }
 }

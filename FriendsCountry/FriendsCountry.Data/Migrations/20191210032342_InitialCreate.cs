@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FriendsCountry.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,8 +53,8 @@ namespace FriendsCountry.Data.Migrations
                     Email = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
                     Birthdate = table.Column<DateTime>(nullable: false),
-                    CountryId = table.Column<long>(nullable: true),
-                    StateId = table.Column<long>(nullable: true),
+                    CountryId = table.Column<long>(nullable: false),
+                    StateId = table.Column<long>(nullable: false),
                     FriendId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
@@ -65,7 +65,7 @@ namespace FriendsCountry.Data.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Friends_Friends_FriendId",
                         column: x => x.FriendId,
@@ -77,7 +77,7 @@ namespace FriendsCountry.Data.Migrations
                         column: x => x.StateId,
                         principalTable: "States",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

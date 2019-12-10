@@ -10,33 +10,37 @@ using System.Threading.Tasks;
 
 namespace FriendsCountry.Infra.Repositories
 {
-    class FriendsRepository : IFriendsRepository
+    public class FriendsRepository : IFriendsRepository
     {
+        private readonly ApplicationDbContext _context;
         private readonly DbSet<Friend> _friends;
 
         public FriendsRepository(ApplicationDbContext context)
         {
+            _context = context;
             _friends = context.Friends;
         }
 
-        public async Task<Friend> Add(Friend friend)
+        public async Task<Friend> AddAsync(Friend friend)
         {
             await _friends.AddAsync(friend);
+
+            await _context.SaveChangesAsync();
 
             return friend;
         }
 
-        public async Task<IEnumerable<Friend>> GetAll()
+        public async Task<IEnumerable<Friend>> GetAllAsync()
         {
-            return await Task.FromResult(_friends);
+            return await Task.FromResult(_friends.Include(f => f.Friends));
         }
 
-        public async Task<IEnumerable<Friend>> GetBy(string keyword)
+        public async Task<IEnumerable<Friend>> GetByAsync(string keyword)
         {
-            return await Task.FromResult(_friends.Where(f => f.Name.ToLower().Contains(keyword) || f.FamilyName.ToLower().Contains(keyword)));
+            return await Task.FromResult(_friends.Include(f => f.Friends).Where(f => f.Name.ToLower().Contains(keyword) || f.FamilyName.ToLower().Contains(keyword)));
         }
 
-        public async Task<Friend> GetByCountry(Country country)
+        public async Task<Friend> GetByCountryAsync(Country country)
         {
             return await _friends.FindAsync(new
             {
@@ -44,12 +48,12 @@ namespace FriendsCountry.Infra.Repositories
             });
         }
 
-        public async Task<Friend> GetById(long id)
+        public async Task<Friend> GetByIdAsync(long id)
         {
-            return await _friends.FirstOrDefaultAsync(f => f.Id == id);
+            return await _friends.Include(f => f.Friends).FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public async Task<Friend> GetByState(State state)
+        public async Task<Friend> GetByStateAsync(State state)
         {
             return await _friends.FindAsync(new
             {
@@ -57,14 +61,19 @@ namespace FriendsCountry.Infra.Repositories
             });
         }
 
-        public async Task Remove(Friend friend)
+        public async Task RemoveAsync(Friend friend)
         {
-            await Task.FromResult(_friends.Remove(friend));
+            _friends.Remove(friend);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Friend> Update(Friend friend)
+        public async Task<Friend> UpdateAsync(Friend friend)
         {
-            throw new NotImplementedException();
+            _context.Update(friend);
+
+            await _context.SaveChangesAsync();
+
+            return friend;
         }
     }
 }

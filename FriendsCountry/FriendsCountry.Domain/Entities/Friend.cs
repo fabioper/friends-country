@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace FriendsCountry.Domain.Entities
@@ -20,8 +21,15 @@ namespace FriendsCountry.Domain.Entities
 
         public ICollection<Friend> Friends { get; set; }
 
+        public long CountryId { get; set; }
+
+        [ForeignKey(nameof(CountryId))]
         public Country Country { get; set; }
 
+
+        public long StateId { get; set; }
+
+        [ForeignKey(nameof(StateId))]
         public State State { get; set; }
     }
 }

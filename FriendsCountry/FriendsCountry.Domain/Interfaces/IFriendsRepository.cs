@@ -8,8 +8,8 @@ namespace FriendsCountry.Domain.Interfaces
 {
     public interface IFriendsRepository : IRepository<Friend>
     {
-        Task<Friend> GetByCountry(Country country);
+        Task<Friend> GetByCountryAsync(Country country);
 
-        Task<Friend> GetByState(State state);
+        Task<Friend> GetByStateAsync(State state);
     }
 }

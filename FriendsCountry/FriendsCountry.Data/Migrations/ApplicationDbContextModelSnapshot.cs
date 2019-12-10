@@ -15,7 +15,7 @@ namespace FriendsCountry.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -47,7 +47,7 @@ namespace FriendsCountry.Data.Migrations
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("CountryId")
+                    b.Property<long>("CountryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Email")
@@ -65,7 +65,7 @@ namespace FriendsCountry.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("StateId")
+                    b.Property<long>("StateId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -106,7 +106,9 @@ namespace FriendsCountry.Data.Migrations
                 {
                     b.HasOne("FriendsCountry.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FriendsCountry.Domain.Entities.Friend", null)
                         .WithMany("Friends")
@@ -114,7 +116,9 @@ namespace FriendsCountry.Data.Migrations
 
                     b.HasOne("FriendsCountry.Domain.Entities.State", "State")
                         .WithMany()
-                        .HasForeignKey("StateId");
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FriendsCountry.Domain.Entities.State", b =>
