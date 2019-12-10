@@ -6,6 +6,14 @@
     <title>@ViewData["Title"] - FriendsCountry.Client</title>
 </head>
 <body>
+    <header>
+        <ul>
+            <li><a asp-controller="Countries" asp-action="Index">Countries</a></li>
+            <li><a asp-controller="States" asp-action="Index">States</a></li>
+            <li><a asp-controller="Friends" asp-action="Index">Friends</a></li>
+        </ul>
+    </header>
+
     @RenderBody()
 </body>
 </html>

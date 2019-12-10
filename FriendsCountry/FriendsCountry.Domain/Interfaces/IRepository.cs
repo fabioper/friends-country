@@ -19,5 +19,7 @@ namespace FriendsCountry.Domain.Interfaces
         Task<T> UpdateAsync(T entity);
 
         Task RemoveAsync(T entity);
+
+        Task<int> Count();
     }
 }

@@ -29,6 +29,13 @@ namespace FriendsCountry.Infra.Repositories
             return country;
         }
 
+        public Task<int> Count()
+        {
+            var result = _context.Database.ExecuteSqlRaw(@"SELECT COUNT(Id) FROM dbo.Countries");
+
+            return Task.FromResult(result);
+        }
+
         public async Task<IEnumerable<Country>> GetAllAsync()
         {
             return await Task.FromResult(_countries.Include(c => c.States));

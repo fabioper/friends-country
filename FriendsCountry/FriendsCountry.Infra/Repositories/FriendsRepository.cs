@@ -25,12 +25,18 @@ namespace FriendsCountry.Infra.Repositories
         {
             Console.WriteLine($"\n\n{friend.ToString()}\n\n{friend.StateId}\n\n");
 
-            //await _friends.AddAsync(friend);
             await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.InsertFriend {friend.PhotoUri}, {friend.Name}, {friend.FamilyName}, {friend.Email}, {friend.Phone}, {friend.Birthdate}, {friend.CountryId}, {friend.StateId}");
 
             await _context.SaveChangesAsync();
 
             return friend;
+        }
+
+        public Task<int> Count()
+        {
+            var result = _context.Database.ExecuteSqlRaw(@"SELECT COUNT(Id) FROM dbo.Friends");
+
+            return Task.FromResult(result);
         }
 
         public async Task<IEnumerable<Friend>> GetAllAsync()
