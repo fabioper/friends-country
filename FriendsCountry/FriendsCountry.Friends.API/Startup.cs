@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FriendsCountry.Data;
+using FriendsCountry.Domain.Interfaces;
+using FriendsCountry.Infra.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +28,8 @@ namespace FriendsCountry.Friends.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IFriendsRepository, FriendsRepository>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationConnection"));

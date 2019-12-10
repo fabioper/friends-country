@@ -28,7 +28,6 @@ namespace FriendsCountry.Countries.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IFriendsRepository, FriendsRepository>();
             services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<IStatesRepository, StatesRepository>();
 

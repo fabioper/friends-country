@@ -1,21 +1,20 @@
-﻿using System;
+﻿using FriendsCountry.Domain.Entities;
+using FriendsCountry.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FriendsCountry.Countries.API.Models;
-using FriendsCountry.Domain.Entities;
-using FriendsCountry.Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FriendsCountry.Countries.API.Controllers
 {
-    [Route("api/countries")]
+    [Route("api/states")]
     [ApiController]
-    public class CountriesController : ControllerBase
+    public class StatesController : ControllerBase
     {
-        private readonly ICountriesRepository _repository;
+        private readonly IStatesRepository _repository;
 
-        public CountriesController(ICountriesRepository repository)
+        public StatesController(IStatesRepository repository)
         {
             _repository = repository;
         }
@@ -29,17 +28,17 @@ namespace FriendsCountry.Countries.API.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Index(CreateCountry country)
+        public async Task<IActionResult> Index(CreateState country)
         {
             if (ModelState.IsValid)
             {
-                var newCountry = new Country
+                var newState = new State
                 {
                     Name = country.Name,
                     FlagUri = country.FlagUri
                 };
 
-                await _repository.AddAsync(newCountry);
+                await _repository.AddAsync(newState);
 
                 return Ok();
             }
@@ -50,29 +49,29 @@ namespace FriendsCountry.Countries.API.Controllers
         [HttpGet("{id:long}")]
         public async Task<IActionResult> GetById([FromRoute] long id)
         {
-            var country = await _repository.GetByIdAsync(id);
+            var state = await _repository.GetByIdAsync(id);
 
-            if (country != null)
+            if (state != null)
             {
-                return Ok(country);
+                return Ok(state);
             }
 
             return NotFound();
         }
 
         [HttpPut("{id:long}")]
-        public async Task<IActionResult> Update([FromRoute] long id, CreateCountry vm)
+        public async Task<IActionResult> Update([FromRoute] long id, CreateState vm)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.Select(e => e.Errors));
 
-            var country = await _repository.GetByIdAsync(id);
+            var state = await _repository.GetByIdAsync(id);
 
-            if (country != null)
+            if (state != null)
             {
-                country.Name = vm.Name;
-                country.FlagUri = vm.FlagUri;
+                state.Name = vm.Name;
+                state.FlagUri = vm.FlagUri;
 
-                await _repository.UpdateAsync(country);
+                await _repository.UpdateAsync(state);
 
                 return Ok();
             }
@@ -83,11 +82,11 @@ namespace FriendsCountry.Countries.API.Controllers
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> Remove([FromRoute] long id)
         {
-            var country = await _repository.GetByIdAsync(id);
+            var state = await _repository.GetByIdAsync(id);
 
-            if (country != null)
+            if (state != null)
             {
-                await _repository.RemoveAsync(country);
+                await _repository.RemoveAsync(state);
 
                 return Ok();
             }
