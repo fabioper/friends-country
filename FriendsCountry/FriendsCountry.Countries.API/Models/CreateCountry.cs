@@ -8,8 +8,8 @@ namespace FriendsCountry.Countries.API.Models
 {
     public class CreateCountry
     {
-        [Required]
-        public string FlagUri { get; set; }
+        //[Required]
+        //public string FlagUri { get; set; }
 
         [Required]
         public string Name { get; set; }

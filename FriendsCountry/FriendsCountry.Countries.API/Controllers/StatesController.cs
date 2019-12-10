@@ -1,4 +1,5 @@
-﻿using FriendsCountry.Domain.Entities;
+﻿using FriendsCountry.Countries.API.Models;
+using FriendsCountry.Domain.Entities;
 using FriendsCountry.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,14 +29,13 @@ namespace FriendsCountry.Countries.API.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Index(CreateState country)
+        public async Task<IActionResult> Index(CreateState state)
         {
             if (ModelState.IsValid)
             {
                 var newState = new State
                 {
-                    Name = country.Name,
-                    FlagUri = country.FlagUri
+                    Name = state.Name
                 };
 
                 await _repository.AddAsync(newState);
@@ -69,7 +69,6 @@ namespace FriendsCountry.Countries.API.Controllers
             if (state != null)
             {
                 state.Name = vm.Name;
-                state.FlagUri = vm.FlagUri;
 
                 await _repository.UpdateAsync(state);
 

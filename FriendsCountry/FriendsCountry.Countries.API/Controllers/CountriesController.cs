@@ -35,8 +35,7 @@ namespace FriendsCountry.Countries.API.Controllers
             {
                 var newCountry = new Country
                 {
-                    Name = country.Name,
-                    FlagUri = country.FlagUri
+                    Name = country.Name
                 };
 
                 await _repository.AddAsync(newCountry);
@@ -70,7 +69,6 @@ namespace FriendsCountry.Countries.API.Controllers
             if (country != null)
             {
                 country.Name = vm.Name;
-                country.FlagUri = vm.FlagUri;
 
                 await _repository.UpdateAsync(country);
 
