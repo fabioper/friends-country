@@ -108,6 +108,13 @@ namespace FriendsCountry.Data.Migrations
                     select * from dbo.Countries where Id = @Id
                 END";
 
+            var spCountryDelete = @"CREATE PROCEDURE [dbo].[DeleteCountry]
+                    @Id BIGINT
+                AS
+                BEGIN
+                    delete from dbo.Countries where Id = @Id
+                END";
+
             var spCountriesInsert = @"CREATE PROCEDURE [dbo].[InsertCountry]
                     @FlagUri NVARCHAR (MAX),
                     @Name NVARCHAR (MAX)
@@ -130,6 +137,13 @@ namespace FriendsCountry.Data.Migrations
                 AS
                 BEGIN
                     select * from dbo.States where Id = @Id
+                END";
+
+            var spStatesDelete = @"CREATE PROCEDURE [dbo].[DeleteState]
+                    @Id BIGINT
+                AS
+                BEGIN
+                    delete from dbo.States where Id = @Id
                 END";
 
 
@@ -187,15 +201,25 @@ namespace FriendsCountry.Data.Migrations
                     update dbo.Friends set PhotoUri = @PhotoUri, Name = @Name, FamilyName = @FamilyName, Email = @Email, Phone = @Phone, Birthdate = @Birthdate where Id = @Id
                 END";
 
+            var spFriendsDelete = @"CREATE PROCEDURE [dbo].[DeleteFriend]
+                    @Id BIGINT
+                AS
+                BEGIN
+                    delete from dbo.Friends where Id = @Id
+                END";
+
             migrationBuilder.Sql(spCountriesGet);
             migrationBuilder.Sql(spCountriesInsert);
             migrationBuilder.Sql(spCountriesUpdate);
+            migrationBuilder.Sql(spCountryDelete);
             migrationBuilder.Sql(spStatesGet);
             migrationBuilder.Sql(spStatesInsert);
             migrationBuilder.Sql(spStatesUpdate);
+            migrationBuilder.Sql(spStatesDelete);
             migrationBuilder.Sql(spFriendsGet);
             migrationBuilder.Sql(spFriendsInsert);
             migrationBuilder.Sql(spFriendsUpdate);
+            migrationBuilder.Sql(spFriendsDelete);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

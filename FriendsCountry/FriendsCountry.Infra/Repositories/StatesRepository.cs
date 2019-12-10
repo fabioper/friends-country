@@ -48,7 +48,7 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task RemoveAsync(State state)
         {
-            _states.Remove(state);
+            await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.DeleteState {state.Id}");
 
             await _context.SaveChangesAsync();
         }

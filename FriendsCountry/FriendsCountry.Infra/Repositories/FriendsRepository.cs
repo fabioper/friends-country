@@ -70,7 +70,7 @@ namespace FriendsCountry.Infra.Repositories
 
         public async Task RemoveAsync(Friend friend)
         {
-            _friends.Remove(friend);
+            await _context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE dbo.DeleteFriend {friend.Id}");
             await _context.SaveChangesAsync();
         }
 
