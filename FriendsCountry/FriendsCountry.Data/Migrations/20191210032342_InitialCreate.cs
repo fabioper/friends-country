@@ -108,34 +108,48 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spCountriesInsert = @"CREATE PROCEDURE [dbo].[InsertCountry]
+                    @Name NVARCHAR,
+                    @States NVARCHAR,
+                    @FlagUri NVARCHAR,
+                    @Country NVARCHAR
                 AS
                 BEGIN
-                    
+                    INSERT INTO Countries(Name, States, FlagUri, Country) VALUES(@Name, @States, @FlagUri, @Country)
                 END";
 
             var spCountriesUpdate = @"CREATE PROCEDURE [dbo].[UpdateCountry]
+                    @Id BIGINT,
+                    @Name NVARCHAR,
+                    @States NVARCHAR,
+                    @FlagUri NVARCHAR,
+                    @Country NVARCHAR
                 AS
                 BEGIN
-                    
+                    UPDATE Countries SET Name = @Name, States = @States, FlagUri = @FlagUri, Country = @Country WHERE Id = @Id
                 END";
 
             var spStatesGet = @"CREATE PROCEDURE [dbo].[GetState]
                 AS
                 BEGIN
-                    select * from Countries
+                    select * from States
                 END";
 
 
             var spStatesInsert = @"CREATE PROCEDURE [dbo].[InsertState]
+                    @Name NVARCHAR,
+                    @FlagUri NVARCHAR
                 AS
                 BEGIN
-                    
+                    INSERT INTO States(Name, FlagUri) VALUES(@Name, @FlagUri)
                 END";
 
             var spStatesUpdate = @"CREATE PROCEDURE [dbo].[UpdateState]
+                   @Id BIGINT, 
+                   @Name NVARCHAR,
+                   @FlagUri NVARCHAR
                 AS
                 BEGIN
-                    
+                    UPDATE States SET Name = @Name, FlagUri = @FlagUri WHERE Id = @Id
                 END";
 
             var spFriendsGet = @"CREATE PROCEDURE [dbo].[GetFriends]
@@ -145,14 +159,14 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spFriendsInsert = @"CREATE PROCEDURE [dbo].[InsertFriend]
-                    @Name NVARCHAR
-                    @FamilyName NVARCHAR
-                    @Email NVARCHAR
-                    @Phone NVARCHAR
+                    @Name NVARCHAR,
+                    @FamilyName NVARCHAR,
+                    @Email NVARCHAR,
+                    @Phone NVARCHAR,
                     @Birthdate DATETIME2
                 AS
                 BEGIN
-                    insert into Friends values (@Name, @FamilyName, @Email, @Phone, @Birthdate)
+                    insert into Friends(Name, FamilyName, Email, Phone, Birthdate) values (@Name, @FamilyName, @Email, @Phone, @Birthdate)
                 END";
 
 
