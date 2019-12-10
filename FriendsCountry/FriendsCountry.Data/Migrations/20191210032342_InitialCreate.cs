@@ -102,21 +102,27 @@ namespace FriendsCountry.Data.Migrations
 
 
             var spCountriesGet = @"CREATE PROCEDURE [dbo].[GetCountries]
+                    @Id BIGINT
                 AS
                 BEGIN
-                    select * from Countries
+                    select * from Countries where Id = @Id
                 END";
 
             var spCountriesInsert = @"CREATE PROCEDURE [dbo].[InsertCountry]
+                    @FlagUri NVARCHAR,
+                    @Name NVARCHAR
                 AS
                 BEGIN
-                    
+                    insert into Countries(FlagUri, Name) values (@FlagUri, @Name)
                 END";
 
             var spCountriesUpdate = @"CREATE PROCEDURE [dbo].[UpdateCountry]
+                    @Id BIGINT,
+                    @FlagUri NVARCHAR,
+                    @Name NVARCHAR
                 AS
                 BEGIN
-                    
+                    update Countries set FlagUri = @FlagUri, Name = @Name where Id = @Id
                 END";
 
             var spStatesGet = @"CREATE PROCEDURE [dbo].[GetState]
@@ -139,9 +145,10 @@ namespace FriendsCountry.Data.Migrations
                 END";
 
             var spFriendsGet = @"CREATE PROCEDURE [dbo].[GetFriends]
+                    @Id BIGINT
                 AS
                 BEGIN
-                    select * from Friends
+                    select * from Friends where Id = @Id
                 END";
 
             var spFriendsInsert = @"CREATE PROCEDURE [dbo].[InsertFriend]
@@ -152,7 +159,7 @@ namespace FriendsCountry.Data.Migrations
                     @Birthdate DATETIME2
                 AS
                 BEGIN
-                    insert into Friends values (@Name, @FamilyName, @Email, @Phone, @Birthdate)
+                    insert into Friends(Name, FamilyName, Email, Phone, Birthdate) values (@Name, @FamilyName, @Email, @Phone, @Birthdate)
                 END";
 
 
