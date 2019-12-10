@@ -105,7 +105,7 @@ namespace FriendsCountry.Data.Migrations
                     @Id BIGINT
                 AS
                 BEGIN
-                    select * from Countries where Id = @Id
+                    select * from dbo.Countries where Id = @Id
                 END";
 
             var spCountriesInsert = @"CREATE PROCEDURE [dbo].[InsertCountry]
@@ -113,7 +113,7 @@ namespace FriendsCountry.Data.Migrations
                     @Name NVARCHAR
                 AS
                 BEGIN
-                    insert into Countries(FlagUri, Name) values (@FlagUri, @Name)
+                    insert into dbo.Countries(FlagUri, Name) values (@FlagUri, @Name)
                 END";
 
             var spCountriesUpdate = @"CREATE PROCEDURE [dbo].[UpdateCountry]
@@ -122,14 +122,14 @@ namespace FriendsCountry.Data.Migrations
                     @Name NVARCHAR
                 AS
                 BEGIN
-                    update Countries set FlagUri = @FlagUri, Name = @Name where Id = @Id
+                    update dbo.Countries set FlagUri = @FlagUri, Name = @Name where Id = @Id
                 END";
 
             var spStatesGet = @"CREATE PROCEDURE [dbo].[GetState]
                     @Id BIGINT
                 AS
                 BEGIN
-                    select * from States where Id = @Id
+                    select * from dbo.States where Id = @Id
                 END";
 
 
@@ -138,7 +138,7 @@ namespace FriendsCountry.Data.Migrations
                     @FlagUri NVARCHAR
                 AS
                 BEGIN
-                    INSERT INTO States(Name, FlagUri) VALUES(@Name, @FlagUri)
+                    INSERT INTO dbo.States(Name, FlagUri) VALUES(@Name, @FlagUri)
                 END";
 
             var spStatesUpdate = @"CREATE PROCEDURE [dbo].[UpdateState]
@@ -147,7 +147,7 @@ namespace FriendsCountry.Data.Migrations
                    @FlagUri NVARCHAR
                 AS
                 BEGIN
-                    UPDATE States SET Name = @Name, FlagUri = @FlagUri WHERE Id = @Id
+                    UPDATE dbo.States SET Name = @Name, FlagUri = @FlagUri WHERE Id = @Id
                 END";
 
             var spFriendsGet = @"CREATE PROCEDURE [dbo].[GetFriend]
@@ -168,7 +168,7 @@ namespace FriendsCountry.Data.Migrations
                     @StateId BIGINT
                 AS
                 BEGIN
-                    insert into Friends(PhotoUri, Name, FamilyName, Email, Phone, Birthdate, CountryId, StateId) values (@PhotoUri, @Name, @FamilyName, @Email, @Phone, @Birthdate, @CountryId, @StateId)
+                    insert into dbo.Friends(PhotoUri, Name, FamilyName, Email, Phone, Birthdate, CountryId, StateId) values (@PhotoUri, @Name, @FamilyName, @Email, @Phone, @Birthdate, @CountryId, @StateId)
                 END";
 
 
@@ -184,7 +184,7 @@ namespace FriendsCountry.Data.Migrations
                     @StateId BIGINT
                 AS
                 BEGIN
-                    update friends set PhotoUri = @PhotoUri, Name = @Name, FamilyName = @FamilyName, Email = @Email, Phone = @Phone, Birthdate = @Birthdate where Id = @Id
+                    update dbo.Friends set PhotoUri = @PhotoUri, Name = @Name, FamilyName = @FamilyName, Email = @Email, Phone = @Phone, Birthdate = @Birthdate where Id = @Id
                 END";
 
             migrationBuilder.Sql(spCountriesGet);

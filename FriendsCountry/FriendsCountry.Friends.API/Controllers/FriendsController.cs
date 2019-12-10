@@ -36,7 +36,14 @@ namespace FriendsCountry.Friends.API.Controllers
             {
                 var newFriend = new Friend
                 {
-                    Name = friend.Name
+                    Name = friend.Name,
+                    FamilyName = friend.FamilyName,
+                    PhotoUri = "",
+                    Birthdate = friend.Birthdate,
+                    CountryId = friend.CountryId,
+                    StateId = friend.StateId,
+                    Phone = friend.Phone,
+                    Email = friend.Email
                 };
 
                 await _repository.AddAsync(newFriend);
@@ -70,7 +77,7 @@ namespace FriendsCountry.Friends.API.Controllers
             if (friend != null)
             {
                 friend.Name = vm.Name;
-                friend.PhotoUri = vm.PhotoUri;
+                //friend.PhotoUri = vm.PhotoUri;
                 friend.Email = vm.Email;
                 friend.FamilyName = vm.FamilyName;
                 friend.Birthdate = vm.Birthdate;

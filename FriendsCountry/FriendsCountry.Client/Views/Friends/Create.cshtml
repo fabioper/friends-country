@@ -37,16 +37,19 @@
                 <input asp-for="Birthdate" class="form-control" />
                 <span asp-validation-for="Birthdate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+            
+            <div>
+                <select asp-for="CountryId" asp-items="Model.Countries" class="form-control">
+                    <option value=""></option>
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
+
+            <div>
+                <select asp-for="StatesId" asp-items="Model.States" class="form-control">
+                    <option value=""></option>
+                </select>
             </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

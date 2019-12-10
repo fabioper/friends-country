@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FriendsCountry.Client.VIewModels;
 using FriendsCountry.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace FriendsCountry.Client.Controllers
@@ -38,9 +39,29 @@ namespace FriendsCountry.Client.Controllers
         }
 
         [HttpGet("create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            using (var client = _clientFactory.CreateClient())
+            {
+                var countriesResponse = await client.GetAsync("https://localhost:44329/api/countries");
+
+                countriesResponse.EnsureSuccessStatusCode();
+
+                string countriesResponseBody = await countriesResponse.Content.ReadAsStringAsync();
+                var countries = JsonConvert.DeserializeObject<IEnumerable<Country>>(countriesResponseBody).Select(s => new { s.Id, s.Name }).ToList();
+
+                var statesResponse = await client.GetAsync("https://localhost:44329/api/states");
+
+                statesResponse.EnsureSuccessStatusCode();
+
+                string statesResponseBody = await statesResponse.Content.ReadAsStringAsync();
+                var states = JsonConvert.DeserializeObject<IEnumerable<State>>(statesResponseBody).Select(c => new { c.Id, c.Name }).ToList();
+
+                return View(new CreateFriendViewModel {
+                    Countries = new SelectList(countries, "Id", "Name"),
+                    States = new SelectList(states, "Id", "Name")
+                });
+            }
         }
 
         [HttpPost("create")]

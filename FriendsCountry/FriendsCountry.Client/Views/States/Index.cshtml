@@ -31,9 +31,6 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 <a asp-controller="States" asp-action="Update" asp-route-id="@item.Id">Edit</a>
                 <a asp-controller="States" asp-action="Details" asp-route-id="@item.Id">Details</a>
                 <a asp-controller="States" asp-action="Delete" asp-route-id="@item.Id">Remove</a>

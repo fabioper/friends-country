@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,10 +27,14 @@ namespace FriendsCountry.Client.VIewModels
         [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
 
-        [Required]
-        public long Country { get; set; }
+        public SelectList Countries { get; set; }
 
         [Required]
-        public long State { get; set; }
+        public long CountryId { get; set; }
+
+        public SelectList States { get; set; }
+        
+        [Required]
+        public long StatesId { get; set; }
     }
 }
